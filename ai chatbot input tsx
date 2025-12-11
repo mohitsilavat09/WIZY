@@ -1,0 +1,26 @@
+import React, { useState } from "react";
+
+interface ChatInputProps {
+  onSend: (message: string) => void;
+}
+
+export default function ChatInput({ onSend }: ChatInputProps) {
+  const [text, setText] = useState("");
+
+  const handleSend = () => {
+    if (text.trim() === "") return;
+    onSend(text);
+    setText("");
+  };
+
+  return (
+    <div className="chat-input">
+      <input
+        value={text}
+        onChange={(e) => setText(e.target.value)}
+        placeholder="Type your message..."
+      />
+      <button onClick={handleSend}>Send</button>
+    </div>
+  );
+}
