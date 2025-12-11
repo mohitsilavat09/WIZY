@@ -1,0 +1,15 @@
+import React from "react";
+
+interface OnboardingProps {
+  onStart: () => void;
+}
+
+export default function Onboarding({ onStart }: OnboardingProps) {
+  return (
+    <div className="onboarding">
+      <h1>Welcome!</h1>
+      <p>This AI assistant is ready to chat with you.</p>
+      <button onClick={onStart}>Start Chat</button>
+    </div>
+  );
+}
