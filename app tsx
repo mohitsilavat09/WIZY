@@ -1,0 +1,37 @@
+import React, { useState } from "react";
+import ChatInput from "./components/ChatInput";
+import MessageBubble from "./components/MessageBubble";
+import Onboarding from "./components/Onboarding";
+import { sendMessageToGemini } from "./services/geminiService";
+
+export default function App() {
+  const [started, setStarted] = useState(false);
+  const [messages, setMessages] = useState<any[]>([]);
+
+  const handleSend = async (text: string) => {
+    const userMsg = { sender: "user", text };
+    setMessages((prev) => [...prev, userMsg]);
+
+    const botText = await sendMessageToGemini(
+      messages,
+      text
+    );
+
+    const botMsg = { sender: "bot", text: botText };
+    setMessages((prev) => [...prev, botMsg]);
+  };
+
+  if (!started) return <Onboarding onStart={() => setStarted(true)} />;
+
+  return (
+    <div className="app">
+      <div className="chat-window">
+        {messages.map((msg, i) => (
+          <MessageBubble key={i} sender={msg.sender} text={msg.text} />
+        ))}
+      </div>
+
+      <ChatInput onSend={handleSend} />
+    </div>
+  );
+}
