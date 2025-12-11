@@ -1,0 +1,14 @@
+import React from "react";
+
+interface MessageBubbleProps {
+  sender: "user" | "bot";
+  text: string;
+}
+
+export default function MessageBubble({ sender, text }: MessageBubbleProps) {
+  return (
+    <div className={`message-bubble ${sender}`}>
+      <p>{text}</p>
+    </div>
+  );
+}
