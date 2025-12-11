@@ -1,0 +1,16 @@
+import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GEMINI_API_KEY, MODEL_NAME } from "../constants";
+
+const genAI = new GoogleGenerativeAI(GEMINI_API_KEY);
+const model = genAI.getGenerativeModel({ model: MODEL_NAME });
+
+export async function sendMessageToGemini(history: any[], userMessage: string) {
+  try {
+    const chat = model.startChat({ history });
+    const result = await chat.sendMessage(userMessage);
+    return result.response.text();
+  } catch (err) {
+    console.error("Gemini Error:", err);
+    return "Sorry, something went wrong.";
+  }
+}
